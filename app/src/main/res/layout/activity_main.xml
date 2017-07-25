@@ -6,7 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mcp1993.cloudmusicui.com.goals.splashdemo.MainActivity">
+    tools:context="com.goals.splashdemo.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"

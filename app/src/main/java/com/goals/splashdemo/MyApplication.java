@@ -11,6 +11,7 @@ import android.os.Bundle;
 /**
  * Created by huyongqiang on 2017/7/24.
  * email:262489227@qq.com
+ * http://www.jianshu.com/p/11654f7f0c4a
  */
 
 public class MyApplication extends Application {// Starts as true in order to be notified on first launch
@@ -20,10 +21,13 @@ public class MyApplication extends Application {// Starts as true in order to be
     public void onCreate() {
         super.onCreate();
 
+        //监听是否在前台
         listenForForeground();
+        //监听是否息屏
         listenForScreenTurningOff();
     }
 
+    //监听是否在前台
     private void listenForForeground() {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
@@ -33,11 +37,12 @@ public class MyApplication extends Application {// Starts as true in order to be
 
             @Override
             public void onActivityStarted(Activity activity) {
-                //startActivity(new Intent(getApplicationContext(),SplashActivity.class));
+
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
+                //应用切换至前台
                 if (isBackground) {
                     isBackground = false;
                     notifyForeground();
@@ -66,7 +71,9 @@ public class MyApplication extends Application {// Starts as true in order to be
         });
     }
 
+    //监听手机是否息屏
     private void listenForScreenTurningOff() {
+        //手机息屏
         IntentFilter screenStateFilter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         registerReceiver(new BroadcastReceiver() {
             @Override
@@ -77,9 +84,15 @@ public class MyApplication extends Application {// Starts as true in order to be
         }, screenStateFilter);
     }
 
+    /**
+     * 监听是否在后台
+     * @param level
+     */
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
+
+        //即将进入后台运行
         if (level == TRIM_MEMORY_UI_HIDDEN) {
             isBackground = true;
             notifyBackground();
